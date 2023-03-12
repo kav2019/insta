@@ -10,8 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import ru.kovshov.insta.model.User;
 
-import javax.crypto.SecretKey;
-import java.security.Key;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +18,6 @@ import java.util.Map;
 @Component
 public class JWTTokenProvaider {
     public static final Logger LOG = LoggerFactory.getLogger(JWTTokenProvaider.class);
-    SecretKey secretKey = Keys.hmacShaKeyFor(SecurityConstants.SECRET.getBytes());
 
     public String generatedToken(Authentication authentication){
         User user = (User) authentication.getPrincipal();
@@ -42,15 +40,17 @@ public class JWTTokenProvaider {
                 .addClaims(claimsMap)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(secretKey, SignatureAlgorithm.HS512)
-//                .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
+                .signWith(Keys.hmacShaKeyFor(SecurityConstants.SECRET.getBytes()), SignatureAlgorithm.HS512)
                 .compact();
+//                .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
+//                .compact();
     }
 
     public boolean validateToken(String token){
         try {
             Jwts.parserBuilder()
-                    .setSigningKey(secretKey)
+//                    .setSigningKey(secretKey)
+                    .setSigningKey(SecurityConstants.SECRET)
                     .build()
                     .parse(token);
             return true;
@@ -66,7 +66,8 @@ public class JWTTokenProvaider {
 
     public Long getUserIdFromToken(String token){
         Jws<Claims> claims = Jwts.parserBuilder()
-                .setSigningKey(secretKey)
+//                .setSigningKey(secretKey)
+                .setSigningKey(SecurityConstants.SECRET)
                 .build()
                 .parseClaimsJws(token);
         String id = (String) claims.getBody().get("id");
