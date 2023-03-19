@@ -60,4 +60,5 @@ public class AuthController {
         String jwt = SecurityConstants.TOKEN_PREFIX + jwtTokenProvaider.generatedToken(authentication);
         return ResponseEntity.ok(new JWTTokenSuccessResponse(true, jwt));
     }
+
 }
