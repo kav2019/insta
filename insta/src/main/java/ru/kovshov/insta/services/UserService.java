@@ -12,7 +12,6 @@ import ru.kovshov.insta.model.User;
 import ru.kovshov.insta.model.enums.ERole;
 import ru.kovshov.insta.payload.request.SignupRequest;
 import ru.kovshov.insta.repository.UserRepository;
-import ru.kovshov.insta.security.JWTAuthenticatonFilter;
 
 import java.security.Principal;
 
@@ -62,5 +61,9 @@ public class UserService {
         String username = principal.getName();
         return userRepository.findUserByUsername(username)
                 .orElseThrow(()-> new UsernameNotFoundException("Username not found with username " + username));
+    }
+
+    public User getUserById(Long id){
+        return userRepository.findUserById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }
