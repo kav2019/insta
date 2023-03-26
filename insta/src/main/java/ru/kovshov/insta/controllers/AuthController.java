@@ -58,6 +58,7 @@ public class AuthController {
         ));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = SecurityConstants.TOKEN_PREFIX + jwtTokenProvaider.generatedToken(authentication);
+        System.out.println(jwt);
         return ResponseEntity.ok(new JWTTokenSuccessResponse(true, jwt));
     }
 
