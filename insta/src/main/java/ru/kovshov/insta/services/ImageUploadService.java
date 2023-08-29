@@ -28,9 +28,9 @@ import java.util.zip.Inflater;
 public class ImageUploadService {
     public static final Logger LOG = LoggerFactory.getLogger(ImageUploadService.class);
 
-    private ImageRepository imageRepository;
-    private UserRepository userRepository;
-    private PostRepository postRepository;
+    private final ImageRepository imageRepository;
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     @Autowired
     public ImageUploadService(ImageRepository imageRepository, UserRepository userRepository, PostRepository postRepository) {

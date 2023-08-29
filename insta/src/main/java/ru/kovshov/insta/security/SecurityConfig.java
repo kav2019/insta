@@ -18,9 +18,9 @@ import ru.kovshov.insta.services.CustomUserDetailsServices;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig{
 
-    @Autowired
+    @Autowired  
     private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Autowired
     private CustomUserDetailsServices customUserDetailsServices;
@@ -56,7 +56,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JWTAuthenticatonFilter jwtAuthenticationFilter(){
+    public JWTAuthenticatonFilter jwtAuthenticationFilter(){ //наш фильтр токенов
         return new JWTAuthenticatonFilter();
     }
 

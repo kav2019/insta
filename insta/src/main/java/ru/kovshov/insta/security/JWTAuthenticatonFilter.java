@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyProperties;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -16,6 +17,7 @@ import ru.kovshov.insta.model.User;
 import ru.kovshov.insta.services.CustomUserDetailsServices;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Collections;
 
 
@@ -41,13 +43,25 @@ public class JWTAuthenticatonFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, Collections.emptyList()
                 );
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request)); // <------
+                /**
+                 * эта строка предназначена для загрузки информации о сеансе для
+                 * текущего запроса на стороне сервера. Однако, как мы все знаем,
+                 * этот проект использует аутентификацию на основе токенов, и, следовательно,
+                 * загрузка сеанса на сервер больше не используется
+                 * (я думаю, загрузка сеанса здесь необходима, если мы используем традиционную аутентификацию session_id).
+                 *
+                 * И если я удалю эту строку из исходного кода и запущу этот проект, аутентификация также будет работать нормально.
+                 */
+
+
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }catch (Exception e){
             LOG.error("Cloud not set user authentication");
         }
         filterChain.doFilter(request, response);
+
     }
 
     private String getJWTFromRequest(HttpServletRequest request){

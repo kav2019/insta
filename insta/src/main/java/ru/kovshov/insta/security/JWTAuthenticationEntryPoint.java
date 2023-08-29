@@ -14,6 +14,9 @@ import java.io.IOException;
 
 @Component
 public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
+    /*
+    Возвращает обьект который содержит, то что параметры которые мы прислали не правельные, и возвращать ошибку 401 не авторизован
+     */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         InvalidLoginResponce loginResponce = new InvalidLoginResponce();
