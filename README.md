@@ -15,7 +15,7 @@ API
 Authorization:
 - api/auth/signin – POST request, user authentication
 - api/auth/signup – POST request, user registration
-- 
+  
 User:
 - api/user/ – GET request, getting the current authorized user
 -	api/user/:userId – GET request, getting user data transmitted by :userId
@@ -37,6 +37,23 @@ Image:
 - api/image/:postId/upload - POST request, uploading an image to a post
 - api/image/profileImage - GET request, getting an image from a user profile
 - api/image/:postId/image - GET request, getting an image from a user's post
+
+  Example of incoming JSON data:
+  - api/auth/signin
+  {
+    "username" : "test@email.ru",
+    "password" : "test123"
+  }
+
+- api/auth/signup
+  {
+    "email" : "test@email.ru",
+    "firstname" : "testFirstname",
+    "lastname" : "testLastName",
+    "username" : "testUsername",
+    "password" : "test123",
+    "confirmPassword" : "test123"
+  }
 
   
 
